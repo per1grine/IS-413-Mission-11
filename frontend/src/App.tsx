@@ -4,6 +4,7 @@ import BookstoreList from './BookstoreList'
 import type { CartItem } from './types/CartItems'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import CartPage from './CartPage'
+import AdminBooks from './AdminBooks'
 import type { book } from './types/Bookstore'
 
 
@@ -31,6 +32,7 @@ function App() {
         <Routes>
           <Route path="/" element={<BookstoreList cartItems={cartItems} setCartItems={setCartItems} addToCart={addToCart}/>} />
           <Route path="/cart" element={<CartPage cartItems={cartItems} setCartItems={setCartItems}/>} />
+          <Route path="/adminbooks" element={<AdminBooks />} />
         </Routes>
       </BrowserRouter>
     </>
