@@ -20,7 +20,7 @@ function AdminBooks() {
   const navigate = useNavigate();
 
   const fetchBooks = () => {
-    fetch('https://localhost:5000/api/Bookstore/AllBooks')
+    fetch(`${import.meta.env.VITE_API_URL}/api/Bookstore/AllBooks`)
       .then((res) => res.json())
       .then((data) => setBooks(data));
   };
@@ -41,7 +41,7 @@ function AdminBooks() {
     e.preventDefault();
 
     if (editingId !== null) {
-      fetch(`https://localhost:5000/api/Bookstore/UpdateBook/${editingId}`, {
+      fetch(`${import.meta.env.VITE_API_URL}/api/Bookstore/UpdateBook/${editingId}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ bookID: editingId, ...form }),
@@ -51,7 +51,7 @@ function AdminBooks() {
         setForm(emptyForm);
       });
     } else {
-      fetch('https://localhost:5000/api/Bookstore/AddBook', {
+      fetch(`${import.meta.env.VITE_API_URL}/api/Bookstore/AddBook`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ bookID: 0, ...form }),
@@ -78,7 +78,7 @@ function AdminBooks() {
 
   const handleDelete = (id: number) => {
     if (!window.confirm('Delete this book?')) return;
-    fetch(`https://localhost:5000/api/Bookstore/DeleteBook/${id}`, {
+    fetch(`${import.meta.env.VITE_API_URL}/api/Bookstore/DeleteBook/${id}`, {
       method: 'DELETE',
     }).then(() => fetchBooks());
   };

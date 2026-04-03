@@ -1,0 +1,4 @@
+{
+    "appService.defaultWebAppToDeploy": "/subscriptions/bcca5082-0b6f-4dae-80c8-336e9976a62a/resourceGroups/appsvc_windows_francecentral/providers/Microsoft.Web/sites/Bookstore-Backend-Perigrine",
+    "appService.deploySubpath": "backend\\Mission_11.API\\publish"
+}

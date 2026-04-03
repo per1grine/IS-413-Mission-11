@@ -42,7 +42,7 @@ function BookstoreList({ cartItems, setCartItems, addToCart }: BookstoreListProp
 
     useEffect(() => {
         const fetchBooks = async () => {
-            const response = await fetch("https://localhost:5000/api/Bookstore/AllBooks");
+            const response = await fetch(`${import.meta.env.VITE_API_URL}/api/Bookstore/AllBooks`);
             const data = await response.json();
             setBooks(data);
         }
