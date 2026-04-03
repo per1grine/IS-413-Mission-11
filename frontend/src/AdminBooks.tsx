@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import type { book } from './types/Bookstore';
 import { useNavigate } from 'react-router-dom';
+import { fetchBooks, addBook, updateBook, deleteBook } from './api/BookstoreAPI';
 
 const emptyForm: Omit<book, 'bookID'> = {
   title: '',
@@ -19,14 +20,12 @@ function AdminBooks() {
   const [editingId, setEditingId] = useState<number | null>(null);
   const navigate = useNavigate();
 
-  const fetchBooks = () => {
-    fetch(`${import.meta.env.VITE_API_URL}/api/Bookstore/AllBooks`)
-      .then((res) => res.json())
-      .then((data) => setBooks(data));
+  const loadBooks = () => {
+    fetchBooks().then((data) => setBooks(data));
   };
 
   useEffect(() => {
-    fetchBooks();
+    loadBooks();
   }, []);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -37,26 +36,18 @@ function AdminBooks() {
     }));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = (e: React.SyntheticEvent) => {
     e.preventDefault();
 
     if (editingId !== null) {
-      fetch(`${import.meta.env.VITE_API_URL}/api/Bookstore/UpdateBook/${editingId}`, {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ bookID: editingId, ...form }),
-      }).then(() => {
-        fetchBooks();
+      updateBook(editingId, form).then(() => {
+        loadBooks();
         setEditingId(null);
         setForm(emptyForm);
       });
     } else {
-      fetch(`${import.meta.env.VITE_API_URL}/api/Bookstore/AddBook`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ bookID: 0, ...form }),
-      }).then(() => {
-        fetchBooks();
+      addBook(form).then(() => {
+        loadBooks();
         setForm(emptyForm);
       });
     }
@@ -78,9 +69,7 @@ function AdminBooks() {
 
   const handleDelete = (id: number) => {
     if (!window.confirm('Delete this book?')) return;
-    fetch(`${import.meta.env.VITE_API_URL}/api/Bookstore/DeleteBook/${id}`, {
-      method: 'DELETE',
-    }).then(() => fetchBooks());
+    deleteBook(id).then(() => loadBooks());
   };
 
   const handleCancel = () => {

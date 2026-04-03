@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import type { book } from "./types/Bookstore";
 import type { CartItem } from "./types/CartItems";
 import { useLocation, useNavigate } from "react-router-dom";
+import { fetchBooks } from "./api/BookstoreAPI";
 
 interface BookstoreListProps {
     cartItems: CartItem[];
@@ -41,12 +42,7 @@ function BookstoreList({ cartItems, setCartItems, addToCart }: BookstoreListProp
     const categories = [...new Set(books.map(book => book.category ?? ""))];
 
     useEffect(() => {
-        const fetchBooks = async () => {
-            const response = await fetch(`${import.meta.env.VITE_API_URL}/api/Bookstore/AllBooks`);
-            const data = await response.json();
-            setBooks(data);
-        }
-        fetchBooks();
+        fetchBooks().then((data) => setBooks(data));
     }, []);
 
     return (
